@@ -173,12 +173,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<{ token: string } | null>(null);
   const navigate = useNavigate();
 
-  // Create Axios instance
   const api = axios.create({
-    baseURL: 'http://localhost:5050',
+    baseURL: 'http://localhost:3000',
   });
 
-  // Load token on mount
   useEffect(() => {
     const token = localStorage.getItem('token');
     console.log('Initial token check:', token);

@@ -39,7 +39,7 @@ const Login = () => {
               type="email"
               placeholder="admin@admin.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
             />
@@ -56,7 +56,7 @@ const Login = () => {
               type="password"
               placeholder="admin"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
             />
@@ -70,11 +70,6 @@ const Login = () => {
             {isLoading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
-        <div className="mt-4 text-center text-sm text-gray-500">
-          <p>Credenciais de teste:</p>
-          <p>Email: admin@admin.com</p>
-          <p>Senha: admin</p>
-        </div>
       </div>
     </div>
   );

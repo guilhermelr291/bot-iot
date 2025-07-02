@@ -34,6 +34,8 @@ function autenticarToken(req, res, next) {
 }
 
 app.post('/login', async (req, res) => {
+  console.log('recebi requisição de login:', req.body);
+
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ erro: 'Email e senha são obrigatórios' });

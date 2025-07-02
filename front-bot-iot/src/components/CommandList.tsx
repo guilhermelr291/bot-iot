@@ -177,11 +177,11 @@ const CommandList = ({ commands }: CommandListProps) => {
   );
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
 
-  const uniqueCommands = Array.from(new Set(commands.map((c) => c.name))).map(
-    (name) => ({
+  const uniqueCommands = Array.from(new Set(commands.map(c => c.name))).map(
+    name => ({
       name,
       lastCommand: commands
-        .filter((c) => c.name === name)
+        .filter(c => c.name === name)
         .reduce((latest, current) =>
           new Date(current.createdAt) > new Date(latest.createdAt)
             ? current
@@ -191,18 +191,18 @@ const CommandList = ({ commands }: CommandListProps) => {
   );
 
   const getTotalUsage = (commandName: string) => {
-    return commands.filter((c) => c.name === commandName).length;
+    return commands.filter(c => c.name === commandName).length;
   };
 
   const getLastUsed = (commandName: string) => {
     const command = commands
-      .filter((c) => c.name === commandName)
+      .filter(c => c.name === commandName)
       .reduce(
         (latest, current) =>
           new Date(current.createdAt) > new Date(latest.createdAt)
             ? current
             : latest,
-        commands.find((c) => c.name === commandName)!
+        commands.find(c => c.name === commandName)!
       );
     return new Date(command.createdAt);
   };
@@ -211,8 +211,8 @@ const CommandList = ({ commands }: CommandListProps) => {
     return Array.from(
       new Set(
         commands
-          .filter((c) => c.name === commandName)
-          .map((c) =>
+          .filter(c => c.name === commandName)
+          .map(c =>
             new Date(c.createdAt).toLocaleString('pt-BR', {
               month: 'long',
               year: 'numeric',
@@ -249,7 +249,7 @@ const CommandList = ({ commands }: CommandListProps) => {
                 }`}
                 onClick={() => {
                   setSelectedCommandName(isSelected ? null : name);
-                  setSelectedMonth(null); // Reset month selection
+                  setSelectedMonth(null);
                 }}
               >
                 <div className="flex justify-between items-start">
@@ -265,7 +265,7 @@ const CommandList = ({ commands }: CommandListProps) => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
                       <div>
-                        <span className="font-medium">Última Criação:</span>
+                        <span className="font-medium">Última execução:</span>
                         <div className="text-gray-800">
                           {new Date(lastCommand.createdAt).toLocaleDateString(
                             'pt-BR'
@@ -321,11 +321,11 @@ const CommandList = ({ commands }: CommandListProps) => {
                     </label>
                     <select
                       value={selectedMonth || ''}
-                      onChange={(e) => setSelectedMonth(e.target.value || null)}
+                      onChange={e => setSelectedMonth(e.target.value || null)}
                       className="ml-2 p-2 border rounded-md"
                     >
                       <option value="">Todos os meses</option>
-                      {availableMonths.map((month) => (
+                      {availableMonths.map(month => (
                         <option key={month} value={month}>
                           {month}
                         </option>
