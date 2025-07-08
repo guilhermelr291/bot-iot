@@ -23,15 +23,15 @@ const client = mqtt.connect(MQTT_URL, {
 });
 
 client.on('connect', () => {
-  console.log('✅ MQTT conectado');
+  console.log('MQTT conectado');
 });
 
 bot.getMe().then(botInfo => {
-  console.log('🤖 Bot está ativo:', botInfo.username);
+  console.log('Bot está ativo:', botInfo.username);
 });
 
 bot.on('message', msg => {
-  console.log('📥 Mensagem recebida:', msg.text);
+  console.log('Mensagem recebida:', msg.text);
 });
 
 bot.on('polling_error', error => {
@@ -59,21 +59,21 @@ function mqttPublishSafe(chatId, topic, message) {
     console.warn('MQTT não está conectado no momento.');
     bot.sendMessage(
       chatId,
-      '⚠️ MQTT ainda não está conectado. Tente novamente em alguns segundos.'
+      'MQTT ainda não está conectado. Tente novamente em alguns segundos.'
     );
     return;
   }
 
   client.publish(topic, message, { qos: 1 }, err => {
     if (err) {
-      console.error('❌ Erro ao publicar no MQTT:', err.message);
+      console.error('Erro ao publicar no MQTT:', err.message);
       return bot.sendMessage(
         chatId,
         'Erro ao enviar comando ao ESP32 via MQTT.'
       );
     }
 
-    console.log(`📨 Comando "${message}" publicado no tópico "${topic}"`);
+    console.log(`Comando "${message}" publicado no tópico "${topic}"`);
     state = message === 'led_on' ? 'O LED está ligado' : 'O LED está desligado';
     bot.sendMessage(
       chatId,
@@ -84,12 +84,12 @@ function mqttPublishSafe(chatId, topic, message) {
 
 bot.onText(/\/led_on/, async msg => {
   const chatId = msg.chat.id;
-  console.log('✅ Comando /led_on recebido');
+  console.log('Comando /led_on recebido');
   try {
     await prisma.command.create({ data: { name: 'led_on' } });
     mqttPublishSafe(chatId, COMMAND_TOPIC, 'led_on');
   } catch (err) {
-    console.error('❌ Erro ao salvar no banco ou publicar:', err);
+    console.error('Erro ao salvar no banco ou publicar:', err);
     bot.sendMessage(chatId, 'Erro ao processar o comando.');
   }
 });
@@ -97,15 +97,15 @@ bot.onText(/\/led_on/, async msg => {
 bot.onText(/\/led_off/, msg => {
   try {
     const chatId = msg.chat.id;
-    console.log('✅ Comando /led_off recebido');
+    console.log('Comando /led_off recebido');
     mqttPublishSafe(chatId, COMMAND_TOPIC, 'led_off');
   } catch (error) {
-    console.error('❌ Erro ao salvar no banco ou publicar:', err);
+    console.error('Erro ao salvar no banco ou publicar:', err);
     bot.sendMessage(chatId, 'Erro ao processar o comando.');
   }
 });
 
 bot.onText(/\/state/, msg => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, `Estado atual: ${state || 'Desconhecido'}`);
+  bot.sendMessage(chatId, `Estado atual: ${state}`);
 });
